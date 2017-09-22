@@ -6,7 +6,7 @@
 - Requires the ngRoute module to be installed.
 - ngRoute is no longer a part of the base angular.js file, so you'll need to include the angular-route.js file after your the base angular javascript file.
 ```
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
 ```
 ## $routeProvider
 
@@ -172,6 +172,37 @@ myApp.factory('apiToken', ['clientId', function apiTokenFactory(clientId) {
 
 - The Service recipe produces a service just like the Value or Factory recipes, but it does so by invoking a constructor with the new operator. The constructor can take zero or more arguments, which represent dependencies needed by the instance of this type.
 - Note: Service recipes follow a design pattern called constructor injection.
+- It provides us method to keep data across the lifetime of the angular app
+- It provides us method to communicate data across the controllers in a consistent way
+- This is a singleton object and it gets instantiated only once per application
+- It is used to organize and share data and functions across the application
+- Two main execution characteristics of angular services are that they are singleton and lazy instantiated.
+```
+<script type="text/javascript">
+app.service('Calculator',function(){
+		this.square=function(a){
+		return a*a;
+	}
+});
+
+app.controller('MyCalcController',function($scope,Calculator){
+	$scope.findSquare=function(){
+		$scope.result=Calculator.square($scope.number);
+	};
+});
+</script>
+```
+```
+<body ng-app="MyApplication">	
+	<div ng-controller="MyCalcController">
+		Enter Number : <input type="text" ng-model="number"/><br/>
+		&nbsp;&nbsp;&nbsp;<button ng-click="findSquare()">Square</button><br/>
+		Result : <span>{{result}}</span>
+	</div>
+</body>
+```
+[Contact Manager Demo Using Service] (https://github.com/kotlintpoint/AngularJS/blob/master/ContactManagerService.md)
 
 ###### Provider Recipe
+
 
