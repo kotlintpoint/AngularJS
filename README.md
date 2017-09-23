@@ -298,32 +298,104 @@ myApp.controller('GreetingController', ['$scope', function($scope) {
 	- **currency** Format a number to a currency format.
 	- **date** Format a date to a specified format.
 	- **filter** Select a subset of items from an array.
+	```
+	<label>Any: <input ng-model="search.$"></label> <br>
+	<label>Name only <input ng-model="search.name"></label><br>
+	<label>Phone only <input ng-model="search.phone"></label><br>
+	<label>Equality <input type="checkbox" ng-model="strict"></label><br>
+	<table id="searchObjResults">
+	  <tr><th>Name</th><th>Phone</th></tr>
+	  <tr ng-repeat="friendObj in friends | filter:search:strict">
+	    <td>{{friendObj.name}}</td>
+	    <td>{{friendObj.phone}}</td>
+	  </tr>
+	</table>
+	```
 	- **json** Format an object to a JSON string.
+	```
+	<pre id="default-spacing">{{ {'name':'value'} | json }}</pre>
+	<pre id="custom-spacing">{{ {'name':'value'} | json:4 }}</pre>
+	```
 	- **limitTo** Limits an array/string, into a specified number of elements/characters.
+	```
+	<script>
+	  angular.module('limitToExample', [])
+	    .controller('ExampleController', ['$scope', function($scope) {
+	      $scope.numbers = [1,2,3,4,5,6,7,8,9];
+	      $scope.letters = "abcdefghi";
+	      $scope.longNumber = 2345432342;
+	      $scope.numLimit = 3;
+	      $scope.letterLimit = 3;
+	      $scope.longNumberLimit = 3;
+	    }]);
+	</script>
+	<div ng-controller="ExampleController">
+	  <label>
+	     Limit {{numbers}} to:
+	     <input type="number" step="1" ng-model="numLimit">
+	  </label>
+	  <p>Output numbers: {{ numbers | limitTo:numLimit }}</p>
+	  <label>
+	     Limit {{letters}} to:
+	     <input type="number" step="1" ng-model="letterLimit">
+	  </label>
+	  <p>Output letters: {{ letters | limitTo:letterLimit }}</p>
+	  <label>
+	     Limit {{longNumber}} to:
+	     <input type="number" step="1" ng-model="longNumberLimit">
+	  </label>
+	  <p>Output long number: {{ longNumber | limitTo:longNumberLimit }}</p>
+	</div>
+	```
 	- **lowercase** Format a string to lower case.
+	```
+	<input type="text" ng-model="firstName"><br>		
+	<div>{{firstName | lowercase}}</div>
+	```
 	- **number** Format a number to a string.
+	```
+	<script>
+	  angular.module('numberFilterExample', [])
+	    .controller('ExampleController', ['$scope', function($scope) {
+	      $scope.val = 1234.56789;
+	    }]);
+	</script>
+	<div ng-controller="ExampleController">
+	  <label>Enter number: <input ng-model='val'></label><br>
+	  Default formatting: <span id='number-default'>{{val | number}}</span><br>
+	  No fractions: <span>{{val | number:0}}</span><br>
+	  Negative number: <span>{{-val | number:4}}</span>
+	</div>
+	```
 	- **orderBy** Orders an array by an expression.
+	```
+	<div ng-init="friends = [{name:'John', phone:'555-1276'},
+                         {name:'Mary', phone:'800-BIG-MARY'},
+                         {name:'Mike', phone:'555-4321'},
+                         {name:'Adam', phone:'555-5678'},
+                         {name:'Julie', phone:'555-8765'},
+                         {name:'Juliette', phone:'555-5678'}]"></div>
+	<table id="searchTextResults">
+	  <tr><th>Name</th><th>Phone</th></tr>
+	  <tr ng-repeat="friend in friends | orderBy:'name'">
+	    <td>{{friend.name}}</td>
+	    <td>{{friend.phone}}</td>
+	  </tr>
+	</table>
+	```
 	- **uppercase** Format a string to upper case.
-
+	```
+	<input type="text" ng-model="firstName"><br>	
+	<div>{{firstName | uppercase}}</div>	
+	```
+###### Other Examples 
 ```
-<input type="text" ng-model="firstName"><br>	
-<div>{{firstName | uppercase}}</div>
-<div>{{firstName | lowercase}}</div>
-<hr>
-
 <div ng-init="friends = [{name:'John', phone:'555-1276'},
                          {name:'Mary', phone:'800-BIG-MARY'},
                          {name:'Mike', phone:'555-4321'},
                          {name:'Adam', phone:'555-5678'},
                          {name:'Julie', phone:'555-8765'},
                          {name:'Juliette', phone:'555-5678'}]"></div>
-<table id="searchTextResults">
-  <tr><th>Name</th><th>Phone</th></tr>
-  <tr ng-repeat="friend in friends | orderBy:'name'">
-    <td>{{friend.name}}</td>
-    <td>{{friend.phone}}</td>
-  </tr>
-</table>
 <hr>
 <label>Search: <input ng-model="searchText"></label>
 <table id="searchTextResults">
@@ -378,12 +450,12 @@ angular.module('myApp', []).controller('namesCtrl', function($scope) {
 });
 </script>
 <hr><hr>
+
 <ul ng-app="myApp" ng-controller="namesCtrl">
 <li ng-repeat="x in names">
     {{x | myFormat}}
 </li>
 </ul>
-
 <script>
 var app = angular.module('myApp', []);
 app.filter('myFormat', function() {
