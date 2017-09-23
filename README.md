@@ -310,7 +310,7 @@ myApp.controller('GreetingController', ['$scope', function($scope) {
 <div>{{firstName | uppercase}}</div>
 <div>{{firstName | lowercase}}</div>
 <hr>
-```
+
 <div ng-init="friends = [{name:'John', phone:'555-1276'},
                          {name:'Mary', phone:'800-BIG-MARY'},
                          {name:'Mike', phone:'555-4321'},
