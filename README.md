@@ -290,3 +290,126 @@ myApp.controller('GreetingController', ['$scope', function($scope) {
 - AngularJS comes with a set of these directives built-in, like ngBind, ngModel, and ngClass. Much like you create controllers and services, you can create your own directives for AngularJS to use. 
 - When AngularJS bootstraps your application, the HTML compiler traverses the DOM matching directives against the DOM elements.
 - [Angular Js Built-in directives](http://www.techstrikers.com/AngularJS/angularjs-built-in-directives.php)
+
+
+# Filters 
+- Selects a subset of items from array and returns it as a new array.
+- Filters Provided by Angular JS
+	- **currency** Format a number to a currency format.
+	- **date** Format a date to a specified format.
+	- **filter** Select a subset of items from an array.
+	- **json** Format an object to a JSON string.
+	- **limitTo** Limits an array/string, into a specified number of elements/characters.
+	- **lowercase** Format a string to lower case.
+	- **number** Format a number to a string.
+	- **orderBy** Orders an array by an expression.
+	- **uppercase** Format a string to upper case.
+
+```
+<input type="text" ng-model="firstName"><br>	
+<div>{{firstName | uppercase}}</div>
+<div>{{firstName | lowercase}}</div>
+<hr>
+```
+<div ng-init="friends = [{name:'John', phone:'555-1276'},
+                         {name:'Mary', phone:'800-BIG-MARY'},
+                         {name:'Mike', phone:'555-4321'},
+                         {name:'Adam', phone:'555-5678'},
+                         {name:'Julie', phone:'555-8765'},
+                         {name:'Juliette', phone:'555-5678'}]"></div>
+<table id="searchTextResults">
+  <tr><th>Name</th><th>Phone</th></tr>
+  <tr ng-repeat="friend in friends | orderBy:'name'">
+    <td>{{friend.name}}</td>
+    <td>{{friend.phone}}</td>
+  </tr>
+</table>
+<hr>
+<label>Search: <input ng-model="searchText"></label>
+<table id="searchTextResults">
+  <tr><th>Name</th><th>Phone</th></tr>
+  <tr ng-repeat="friend in friends | filter:searchText">
+    <td>{{friend.name}}</td>
+    <td>{{friend.phone}}</td>
+  </tr>
+</table>
+<hr>
+<label>Any: <input ng-model="search.$"></label> <br>
+<label>Name only <input ng-model="search.name"></label><br>
+<label>Phone only <input ng-model="search.phone"></label><br>
+<label>Equality <input type="checkbox" ng-model="strict"></label><br>
+<table id="searchObjResults">
+  <tr><th>Name</th><th>Phone</th></tr>
+  <tr ng-repeat="friendObj in friends | filter:search:strict">
+    <td>{{friendObj.name}}</td>
+    <td>{{friendObj.phone}}</td>
+  </tr>
+</table>
+<hr>
+<table border="1" width="100%">
+  <tr>
+    <th ng-click="orderByMe('name')">Name</th>
+    <th ng-click="orderByMe('country')">Country</th>
+  </tr>
+  <tr ng-repeat="x in names | orderBy:myOrderBy">
+    <td>{{x.name}}</td>
+    <td>{{x.country}}</td>
+  </tr>
+</table>
+
+</div>
+
+<script>
+angular.module('myApp', []).controller('namesCtrl', function($scope) {
+  $scope.names = [
+    {name:'Jani',country:'Norway'},
+    {name:'Carl',country:'Sweden'},
+    {name:'Margareth',country:'England'},
+    {name:'Hege',country:'Norway'},
+    {name:'Joe',country:'Denmark'},
+    {name:'Gustav',country:'Sweden'},
+    {name:'Birgit',country:'Denmark'},
+    {name:'Mary',country:'England'},
+    {name:'Kai',country:'Norway'}
+  ];
+  $scope.orderByMe = function(x) {
+    $scope.myOrderBy = x;
+  }
+});
+</script>
+<hr><hr>
+<ul ng-app="myApp" ng-controller="namesCtrl">
+<li ng-repeat="x in names">
+    {{x | myFormat}}
+</li>
+</ul>
+
+<script>
+var app = angular.module('myApp', []);
+app.filter('myFormat', function() {
+    return function(x) {
+        var i, c, txt = "";
+        for (i = 0; i < x.length; i++) {
+            c = x[i];
+            if (i % 2 == 0) {
+                c = c.toUpperCase();
+            }
+            txt += c;
+        }
+        return txt;
+    };
+});
+app.controller('namesCtrl', function($scope) {
+    $scope.names = [
+        'Sachin',
+        'Sehwag',
+        'Kohli',
+        'Harbhajan',
+        'Kapil',
+        'Gambhir',
+        'Zaheer',        
+        ];
+});
+</script>
+```
+	
