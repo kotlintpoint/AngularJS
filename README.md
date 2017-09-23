@@ -79,7 +79,7 @@ app.controller('editController',function($scope){
 	<!-- <script type="text/javascript" src="Scripts/angular.min.js"></script>
 	<script type="text/javascript" src="Scripts/angular-route.min.js"></script>  -->
 	<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
+        <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
 	<script type="text/javascript" src="controller/mainController.js"></script>
 </head>
 <body ng-app="MyApplication">
@@ -201,8 +201,92 @@ app.controller('MyCalcController',function($scope,Calculator){
 	</div>
 </body>
 ```
-[Contact Manager Demo Using Service] (https://github.com/kotlintpoint/AngularJS/blob/master/ContactManagerService.md)
+[Contact Manager Demo Using Service](https://github.com/kotlintpoint/AngularJS/blob/master/ContactManagerService.md)
 
-###### Provider Recipe
+# Scopes 
 
+- The scope is the binding part between the HTML (view) and the JavaScript (controller).
+- The scope is a JavaScript object with properties and methods, which are available for both the view and the controller.
+- Then the scope is the Model.
+```
+<div ng-app="myApp" ng-controller="myCtrl">
 
+<h1>{{username}}</h1>
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+
+app.controller('myCtrl', function($scope) {
+    $scope.username = "KotlinTpoint";
+});
+</script>
+```
+###### Another Example using Scope
+```
+<script>
+angular.module('scopeExample', [])
+.controller('MyController', ['$scope', function($scope) {
+  $scope.username = 'World';
+
+  $scope.sayHello = function() {
+    $scope.greeting = 'Hello ' + $scope.username + '!';
+  };
+}]);
+</script>
+<body ng-app="scopeExample">
+  <div ng-controller="MyController">
+  Your name:
+    <input type="text" ng-model="username">
+    <button ng-click='sayHello()'>greet</button>
+  <hr>
+  {{greeting}}
+</div>
+</body>
+```
+# Controller
+
+- In AngularJS, a Controller is defined by a JavaScript constructor function that is used to augment the AngularJS Scope.
+- When a Controller is attached to the DOM via the ng-controller directive, AngularJS will instantiate a new Controller object, using the specified Controller's constructor function. 
+- If the controller has been attached using the "controller as" syntax then the controller instance will be assigned to a property on the new scope.
+- Use controllers to:
+	- Set up the initial state of the $scope object.
+	- Add behavior to the $scope object.
+
+###### Setting up initial state of $scope object
+```
+var myApp = angular.module('myApp',[]);
+
+myApp.controller('GreetingController', ['$scope', function($scope) {
+  $scope.greeting = 'Hello World!';
+}]);
+......
+<div ng-controller="GreetingController">
+  {{ greeting }}
+</div>
+```
+###### Another Example
+```
+<script type="text/javascript">
+	var app=angular.module("MyApp",[]);
+	app.controller("MyCtrl",function($scope){
+		$scope.firstName='Ankit';
+		$scope.lastName='Sodha';
+		$scope.fullName=function(){
+			return $scope.firstName+" "+$scope.lastName;
+		}
+	});
+</script>
+....
+<body ng-app="MyApp" ng-controller="MyCtrl">
+	<input type="text" ng-model="firstName"><br>
+	<input type="text" ng-model="lastName"><br>
+	<div>{{fullName()}}</div>
+</body>	
+```
+# Directives in Angular JS
+- At a high level, directives are markers on a DOM element (such as an attribute, element name, comment or CSS class) that tell AngularJS's HTML compiler ($compile) to attach a specified behavior to that DOM element (e.g. via event listeners), or even to transform the DOM element and its children.
+- AngularJS comes with a set of these directives built-in, like ngBind, ngModel, and ngClass. Much like you create controllers and services, you can create your own directives for AngularJS to use. 
+- When AngularJS bootstraps your application, the HTML compiler traverses the DOM matching directives against the DOM elements.
+- [Angular Js Built-in directives](http://www.techstrikers.com/AngularJS/angularjs-built-in-directives.php)
