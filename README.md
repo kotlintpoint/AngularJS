@@ -484,4 +484,103 @@ app.controller('namesCtrl', function($scope) {
 });
 </script>
 ```
-	
+# Create New Custom Directives
+- New directives are created by using the .directive function.
+- To invoke the new directive, make an HTML element with the same tag name as the new directive.
+- When naming a directive, you must use a camel case name, w3TestDirective, but when invoking it, you must use - separated name, w3-test-directive.
+```
+<student></student>
+
+<script>
+var app = angular.module("myApp", []);
+app.directive("student", function() {
+    return {
+        template : "<h1>Made by a directive!</h1>"
+    };
+});
+</script>
+```
+- You can invoke a directive by using:
+
+    - Element name
+    Ex. 
+    ```
+	<student></student>
+    ```
+    - Attribute
+    Ex. 
+    ```	
+	<div student></div>
+    ```
+    - Class
+     Ex. 
+    ```	
+	<div class="student"></div>
+    ```
+    - Comment
+     Ex. 
+    	```	
+   	<!-- directive: w3-test-directive -->
+	```
+###### Restrictions
+- You can restrict your directives to only be invoked by some of the methods.
+- The legal restrict values are:
+
+   - E for Element name
+   - A for Attribute
+   - C for Class
+   - M for Comment
+```
+var app = angular.module("myApp", []);
+app.directive("w3TestDirective", function() {
+    return {
+        restrict : "A",
+        template : "<h1>Made by a directive!</h1>"
+    };
+});
+```
+- By default the value is EA, meaning that both Element names and attribute names can invoke the directive.
+- $compile can match directives based on element names (E), attributes (A), class names (C), and comments (M).
+- Best Practice: Prefer using directives via tag name and attributes over comment and class names. Doing so generally makes it easier to determine what directives a given element matches. 
+```
+angular.module('docsSimpleDirective', [])
+.controller('Controller', ['$scope', function($scope) {
+  $scope.customer = {
+    name: 'Naomi',
+    address: '1600 Amphitheatre'
+  };
+}])
+.directive('myCustomer', function() {
+  return {
+    template: 'Name: {{customer.name}} Address: {{customer.address}}'
+  };
+});
+```
+- templateUrl function
+```
+angular.module('docsTemplateUrlDirective', [])
+.controller('Controller', ['$scope', function($scope) {
+  $scope.customer = {
+    name: 'Naomi',
+    address: '1600 Amphitheatre'
+  };
+}])
+.directive('myCustomer', function() {
+  return {
+    templateUrl: function(elem, attr) {
+      return 'customer-' + attr.type + '.html';
+    }
+  };
+});
+
+
+<div ng-controller="Controller">
+  <div my-customer type="name"></div>
+  <div my-customer type="address"></div>
+</div>
+
+
+
+```
+
+
